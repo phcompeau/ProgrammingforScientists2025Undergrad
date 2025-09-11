@@ -11,8 +11,21 @@ def find_frequent_words(text: str, k: int) -> list[str]:
     - list[str]: The most frequent k-mers in text.
     """
     # TODO: Implement this function
-    pass
+    if k <= 0:
+        raise ValueError("k is not positive")
+    if k > len(text):
+        return []
+    freq_patterns = []
 
+    # lets hand off most of the work to a subroutine to build a frequency table
+
+    freq_map = frequency_table(text, k)
+    max_val = max_map_value(freq_map)
+
+    # range over all the keys in the dictionary and if anybody has a value equal to max, add it to free_patterns
+    for pattern, val in freq_map.items():
+        if val == max_val:
+            freq_patterns.append(pattern)
 
 def frequency_table(text: str, k: int) -> dict[str, int]:
     """
@@ -27,7 +40,24 @@ def frequency_table(text: str, k: int) -> dict[str, int]:
     - dict[str, int]: A dictionary mapping each k-mer to its frequency.
     """
     # TODO: Implement this function
-    pass
+    """ CLASSIC WAY
+    freqMap: dict[str, int] = {}
+    n = len(text)
+    for i in range(0, n-k+1):
+        pattern = text[i:i+k]
+        if pattern not in freqMap:
+            freqMap[pattern] = 1
+        else:
+            freqMap[pattern] += 1
+            
+
+    return freqMap
+
+    """
+    # shortcut approach using get()
+
+    freq_map[pattern] = freq_map.get(pattern,0) + 1
+
 
 
 def max_map_value(dictionary: dict[str, int]) -> int:
@@ -44,7 +74,21 @@ def max_map_value(dictionary: dict[str, int]) -> int:
     - ValueError: If the dictionary is empty.
     """
     # TODO: Implement this function
-    pass
+    n = 0
+    if len(dictionary.keys()) == 0:
+        raise ValueError("dictionary empty")
+    
+    m = 0
+    ## or use boolean flag
+    first_time_through = True
+
+
+    for _, val in dictionary.items():
+        if val > n or first_time_through:
+            n = val
+            first_time_through = False
+    
+    return n
 
 
 def main():
