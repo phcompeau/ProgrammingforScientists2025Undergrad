@@ -36,7 +36,16 @@ def find_clumps(text: str, k: int, window_length: int, t: int) -> list[str]:
     - Use `contains` to avoid duplicates (or see the faster variant below).
     """
     # TODO: Implement this function
-    pass
+    patterns = []
+    n = len(text)
+
+    for i in range(n-window_length + 1):
+        current_window = text[i:i+window_length]
+        freq_map = frequency_table(text,k)
+        for s, occurences in freq_map.items():
+            if occurences >= t and s not in patterns:
+                patterns.append(s)
+
 
 
 def frequency_table(text: str, k: int) -> dict[str, int]:
