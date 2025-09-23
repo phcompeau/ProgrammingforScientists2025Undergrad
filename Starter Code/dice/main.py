@@ -37,6 +37,9 @@ Built-in PRNG references
 
 import random
 
+def main():
+    num_trials = 1000
+    
 
 def roll_die() -> int:
     """
@@ -45,7 +48,8 @@ def roll_die() -> int:
     - int: A pseudorandom integer between 1 and 6, inclusively.
     """
     # TODO: Implement this function
-    pass
+    return random.randrange(1,7)
+
 
 
 def sum_dice(num_dice: int) -> int:
@@ -67,9 +71,37 @@ def play_craps_once() -> bool:
     Simulates one game of craps.
     Returns:
     - bool: True if the game is a win, False if it's a loss.
+    PlayCrapsOnce()
+    numDice ← 2
+    firstRoll ← SumDice(numDice)
+    if firstRoll = 2, 3, or 12
+        return false (player loses)
+    else if firstRoll = 7 or 11
+        return true (player wins)
+    else
+        while true
+            newRoll ← SumDice(numDice)
+            if newRoll = firstRoll 
+               return true
+            else if newRoll = 7
+                return false
     """
     # TODO: Implement this function
-    pass
+    
+    first_roll = sum_dice(2)
+    if first_roll == 7 or first_roll == 11:
+        return True
+    elif first_roll == 2 or first_roll == 3 or first_roll == 12:
+        return False
+    else:
+        while True: #forever
+            new_roll = sum_dice(2)
+            if new_roll == first_roll:
+                return True
+            elif new_roll == 7:
+                return False
+            
+    
 
 
 def compute_craps_house_edge(num_trials: int) -> float:
