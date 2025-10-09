@@ -15,7 +15,7 @@ def main():
     # Let's declare some variables
     j = 14  #Python gives this type int
     x = -2.3 #type: float 
-    yo_world = "Hi" #type: string 
+    yo_world = "Hi" # type: ignore #type: string 
     statement = True # type: bool
 
     #Note: multi-word variable names use snake_case
