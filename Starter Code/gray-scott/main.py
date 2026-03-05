@@ -44,8 +44,8 @@ def main():
             initial_board[r][c] = (initial_board[r][c][0], 1) # predators
 
     # make prey = 1 everywhere
-    for i in range(len(initial_board)):
-        for j in range(len(initial_board[i])):
+    for r in range(len(initial_board)):
+        for c in range(len(initial_board[r])):
             initial_board[r][c] = (1, initial_board[r][c][1])
 
     # parameters
