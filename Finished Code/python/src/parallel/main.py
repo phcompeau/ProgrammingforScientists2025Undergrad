@@ -68,7 +68,7 @@ def sum_multi_procs(data: list[int], num_procs:int) -> int:
     # need to be aware that num_procs * chunk_size may be < len(data)
 
     # make a list containing the sublists that I want
-    data_slices = []
+    data_slices: list[list[int]] = []
     for i in range(num_procs):
         start_index = i * chunk_size
         end_index = (i+1) * chunk_size
@@ -87,7 +87,7 @@ def sum_multi_procs(data: list[int], num_procs:int) -> int:
 
     # next, create num_procs processes in a list 
 
-    processes = []
+    processes: list[multiprocessing.Process] = []
 
     # range over all the data slices and start processes 
     for slice in data_slices:

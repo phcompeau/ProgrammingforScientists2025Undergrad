@@ -81,7 +81,7 @@ def compute_craps_house_edge_parallel(num_trials:int, num_procs: int) -> float:
 
     # create my queue and processes
     result_queue = multiprocessing.Queue()
-    processes = []
+    processes: list[multiprocessing.Process] = []
 
     # how many trials should each worker take? (except for last)
     trials_one_proc = num_trials // num_procs
