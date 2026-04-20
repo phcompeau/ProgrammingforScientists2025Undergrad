@@ -14,7 +14,7 @@ def main():
 
     # sum_example_multiple_procs()
 
-    timing_comparison_serial_vs_multi_procs(100000000)
+    timing_comparison_serial_vs_multi_procs(1000000000)
 
 def timing_comparison_serial_vs_multi_procs(n:int):
     data = list(range(1, n+1))
@@ -29,7 +29,7 @@ def timing_comparison_serial_vs_multi_procs(n:int):
 
     # time the serial approach
     start_serial = time.time()
-    sum_serial(data)
+    sum(data)
     # sum_multi_procs(data, 1) # a serial algorithm in disguise as a parallel one
     end_serial =time.time()
     total_serial = end_serial - start_serial
