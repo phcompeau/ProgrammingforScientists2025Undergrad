@@ -22,8 +22,8 @@ function main
 10: 81FF   read R[1]                     // a
 11: 82FF   read R[2]                     //b
 12: 9101   M[01] <- R[1]                 // put in memory
-13: 9201   M[01] <- R[2]                 
-14: FF20   R[F] <- PC; goto 20           EuclidGCD() call
+13: 9202   M[02] <- R[2]
+14: FF20   R[F] <- PC; goto 20           // EuclidGCD() call
 15: 96FF   write R[6]                    
 16: 0000   halt                          
 
@@ -33,8 +33,8 @@ function EuclidGCD
 // Output: R6 = GCD(a, b)
 // Return address: RF
 // Temp vars: IDGAF
-20: C12E   if (R[1] == 0) goto 2E        
-21: C230   if (R[2] == 0) goto 30        
+20: C12C   if (R[1] == 0) goto 2C
+21: C22A   if (R[2] == 0) goto 2A
 
 
 // loop!
@@ -51,7 +51,7 @@ function EuclidGCD
 27: C022   goto 22                       // go to start of loop
 
 // a is greater case! set a = a-b and loop
-28: 1130   R[1] <- R[3]                  a = a-b
+28: 1130   R[1] <- R[3]                  // a = a-b
 29: C022   goto 22                       
 
 
@@ -60,15 +60,6 @@ function EuclidGCD
 2A: 1610   R[6] <- R[1]                  // R6 = a (or b)
 2B: EF00   goto R[F]                     // return
 
-// we can't make it here, sorry
-2C: 0000   halt                          
-2D: 0000   halt                          
-
 // a = 0, so return b
-2E: 1620   R[6] <- R[2]                  // R6 = b
-2F: EF00   goto R[F]                     // return
-
-
-// b = 0, so return a
-30: 1610   R[6] <- R[1]                  // R6 = a
-31: EF00   goto R[F]                     // return
+2C: 1620   R[6] <- R[2]                  // R6 = b
+2D: EF00   goto R[F]                     // return
