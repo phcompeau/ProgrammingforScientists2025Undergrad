@@ -16,7 +16,7 @@ def upgma(mtx: DistanceMatrix, species_names: list[str]) -> Tree:
         Tree: A list of `Node` objects representing the full UPGMA tree.
               Conventionally, the last node (index -1) is the root.
     """
-    # let's call our assertions 
+    # let's call our assertions
     assert_square_matrix(mtx)
     assert_same_number_species(mtx, species_names)
 
@@ -25,8 +25,7 @@ def upgma(mtx: DistanceMatrix, species_names: list[str]) -> Tree:
     # initialize the tree by creating nodes and assigning species names to the leaves
     t = initialize_tree(species_names)
 
-    # clusters is a list[Node]
-    clusters = initialize_clusters(t)
+    clusters = t[:num_leaves]
 
     # range over all the internal nodes, and iterate one step of UPGMA algorithm 
     for p in range(num_leaves, 2*num_leaves-1):
@@ -68,10 +67,14 @@ def assert_square_matrix(mtx: DistanceMatrix) -> None:
         ValueError: If the matrix is not square.
     """
     num_rows = len(mtx)
+
+    if num_rows == 0:
+        raise ValueError("Error: empty matrix.")
+
     for r in range(num_rows):
         if len(mtx[r]) != num_rows:
             raise ValueError("Error: matrix not square.")
-    
+
     # there are lots of other things we could check about the matrix: all values non-negative, main diagonal zero, matrix symmetric, etc.
 
 
@@ -231,44 +234,13 @@ def initialize_tree(species_names: list[str]) -> Tree:
     """
     num_leaves = len(species_names)
 
-    # make our tree. What's a tree? list of nodes 
     t: Tree = []
 
-    # make our nodes. How many are there?
-    for i in range(2*num_leaves - 1):
-        v = Node(num=i)
-        t.append(v)
-
-    # we can set the labels
-    for i in range(len(t)): # or 2*num_leaves - 1
+    for i in range(2 * num_leaves - 1):
         if i < num_leaves:
-            # at a leaf, assign it the species name
-            t[i].label = species_names[i]
+            t.append(Node(label=species_names[i]))
         else:
-            # ancestor 
-            t[i].label = f"Ancestor Species: {i}"
+            t.append(Node(label=f"Ancestor Species: {i}"))
 
     return t
 
-def initialize_clusters(t: Tree) -> list[Node]:
-    """
-    Extract the initial cluster representatives (the leaves) from the tree.
-
-    Args:
-        t (Tree): The full node list allocated for UPGMA.
-
-    Returns:
-        list[Node]: The first n nodes of `t`, corresponding to the leaves.
-    """
-
-    num_leaves = (len(t) + 1)//2
-    
-    clusters: list[Node] = []
-
-    for i in range(num_leaves):
-        clusters.append(t[i])
-        # this was what we were worried about because we're kinda doing
-        # clusters[i] = t[i]
-        # here's an example of an assignment being a good thing because I want one thing (a node) with two names for it 
-
-    return clusters

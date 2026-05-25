@@ -370,15 +370,14 @@ render_tree <- function(
   # Assign by leading haplogroup letter(s)
   assign_haplo_group <- function(lbl) {
     hap <- strsplit(lbl, "_")[[1]][1]
-    if (grepl("^L0", hap))                         return("African (L0, oldest)")
-    if (grepl("^L3", hap))                         return("African (L3, non-African ancestor)")
-    if (grepl("^L[12]|^L[^03]", hap))              return("African (L2)")
-    if (grepl("^[CD]", hap))                        return("Asian (M clade)")
-    if (grepl("^[MGQ]|^M[0-9]", hap))              return("Asian (M clade)")
-    if (grepl("^[ABX]|^[FZ]", hap))                return("Americas/Pacific")
+    if (grepl("^L0", hap))                        return("African L0 (oldest)")
+    if (grepl("^L[123]|^L[^0]", hap))             return("African L1-L3")
+    if (grepl("^[CD]", hap))                       return("Asian (M clade)")
+    if (grepl("^[MGQ]|^M[0-9]", hap))             return("Asian (M clade)")
+    if (grepl("^[AB]|^[FZ]", hap))                return("East Asian & Pacific")
     if (grepl("^[HJKTUVI]|^U[0-9]|^H[0-9]", hap)) return("European")
-    if (grepl("^[NW]", hap))                        return("Middle Eastern / Ancient N")
-    if (grepl("^R$", hap))                          return("European")
+    if (grepl("^[NWX]", hap))                      return("Middle Eastern / Ancient N")
+    if (grepl("^R$", hap))                         return("European")
     return("Other")
   }
   haplo_gmap <- setNames(sapply(all_labels, assign_haplo_group), all_labels)
@@ -386,24 +385,22 @@ render_tree <- function(
   haplo_label <- function(x) {
     parts      <- strsplit(x, "_")[[1]]
     haplogroup <- parts[1]
-    location   <- if (length(parts) >= 2) {
-      raw <- paste(parts[2:length(parts)], collapse = "")
-      gsub("([a-z])([A-Z])", "\\1 \\2", raw)
-    } else ""
+    location   <- if (length(parts) >= 3) parts[3] else ""
     paste0(haplogroup, " (", location, ")")
   }
   render_tree(
     newick_path  = "Output/Mitochondrial-Haplogroups/haplogroups.tre",
     output_path  = "Output/Images/08_Haplogroups.png",
     group_map    = haplo_gmap,
-    palette      = c("African (L0, oldest)"              = "#8B1A1A",
-                     "African (L2)"                      = RED,
-                     "African (L3, non-African ancestor)" = ORANGE,
-                     "Asian (M clade)"                   = GOLD,
-                     "European"                          = BLUE,
-                     "Americas/Pacific"                  = GREEN),
-    label_fn    = haplo_label, label_expand = 2.3,
-    height = 12
+    palette      = c("African L0 (oldest)"       = "#8B1A1A",
+                     "African L1-L3"             = RED,
+                     "Asian (M clade)"           = GOLD,
+                     "East Asian & Pacific"      = ORANGE,
+                     "European"                  = BLUE,
+                     "Middle Eastern / Ancient N"= TEAL,
+                     "Other"                     = "gray60"),
+    label_fn    = haplo_label, label_expand = 2.1,
+    height = 14
   )
 }
 
